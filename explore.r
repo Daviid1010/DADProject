@@ -7,7 +7,7 @@ OECDCountries = c("Australia","Austria","Belgium","Canada","Chile","Czech Republ
                   "Spain","Sweden","Switzerland","Turkey","United Kingdom","United States")
 
 
-ColsRm = c("INDICATOR","SUBJECT","FREQUENCY","Flag.Codes")
+ColsRm = c("INDICATOR","SUBJECT","FREQUENCY","Flag.Codes","MEASURE")
 ###### Doc Stats
 docStats = read.csv("doctorStats.csv", header = T, sep = ",")
 nrow(docStats)
@@ -17,7 +17,10 @@ summary(docStats)
 docStats = filter(docStats, between(TIME, 2000,2010))
 ## remove uneeded columns
 docStats = docStats[, !(colnames(docStats) %in% ColsRm), drop = FALSE]
-docStats$Indicator = "Number of Doctors per 1000 people"
+docStats = docStats %>%
+  rename(
+    DocsPer1000 = Value
+  )
 
 
 ##### Nurse Stats
@@ -30,7 +33,10 @@ summary(nurseStats)
 nurseStats = filter(nurseStats, between(TIME, 2000,2010))
 ## remove uneeded colums
 nurseStats = nurseStats[, !(colnames(nurseStats) %in% ColsRm), drop = FALSE]
-nurseStats$Indicator = "Number of Nurses per 1000 People"
+nurseStats = nurseStats %>%
+  rename(
+    NursesPer1000 = Value
+  )
 
 ##### Pharmaeutical Stats 
 PharmaStats = read.csv("PharmaStats.csv")
@@ -42,12 +48,16 @@ summary(PharmaStats)
 PharmaStats = filter(PharmaStats, between(TIME, 2000,2010))
 #### Remove Uneeeded Columns
 PharmaStats = PharmaStats[, !(colnames(PharmaStats) %in% ColsRm), drop = FALSE]
-PharmaStats$Indicator = "% GDP Spending on Pharmaceuticals"
+PharmaStats = PharmaStats %>%
+  rename(
+    PharmaSpendPercentGDP = Value
+  )
 
 
 
 #### rbind all three dataframes into one, can be done as they come from same source and have similar structures
-HealthData = rbind(docStats, nurseStats, PharmaStats)
+HealthData = merge(docStats,nurseStats, by = c("ï..LOCATION","TIME"))
+HealthData = merge(HealthData,PharmaStats, by = c("ï..LOCATION","TIME"))
 
 write.csv(HealthData, "healthdata.csv")
 
@@ -116,3 +126,31 @@ NewDems = NewDems %>%
     Country = ï..Country.Name,
     Year = variable
   )
+NewDems$Year = sub("X","", NewDems$Year)
+NewDems$Year = as.integer(NewDems$Year)
+
+summary(NewDems)
+
+#### change names on Suicide Rates dataset in order for merger with Demographics Dataset
+head(SuicideRates)
+SuicideRates = SuicideRates %>%
+  rename( Country= ï..country,
+          Year = year
+  )
+SuicideRates = SuicideRates[!(names(SuicideRates) %in% c("country.year"))]
+
+###Alter Health Data so that it can be merged with Suicide Rates
+install.packages("countrycode")
+HealthData$Country = countrycode::countrycode(HealthData$ï..LOCATION,origin = 'iso3c', destination = 'country.name')
+HealthData = HealthData[!(names(HealthData) %in% c("ï..LOCATION"))]
+HealthData = HealthData %>%
+  rename(
+    Year = TIME
+  )
+
+### Merge the three datasets together
+FinalData = merge(SuicideRates,HealthData, by = c("Country","Year"))
+FinalDataDem = merge(FinalData, NewDems, by = c("Country","Year"))
+
+write.csv(FinalDataDem, "DataToBeAnalysed.csv")
+
