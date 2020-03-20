@@ -1,5 +1,14 @@
+##install.packages("countrycode")
+##install.packages("tidyverse")
+##install.packages("readxl")
+##install.packages("reshape2")
+##install.packages("mice")
+install.packages("VIM")
 library(tidyverse)
 library(readxl)
+library(reshape2)
+library(mice)
+library(VIM)
 
 OECDCountries = c("Australia","Austria","Belgium","Canada","Chile","Czech Republic","Denmark","Estonia","Finland","France",
                   "Germany","Greece","Hungary","Iceland","Ireland","Israel","Italy","Japan","Korea","Latvia","Lithuania",
@@ -139,8 +148,8 @@ SuicideRates = SuicideRates %>%
   )
 SuicideRates = SuicideRates[!(names(SuicideRates) %in% c("country.year"))]
 
-###Alter Health Data so that it can be merged with Suicide Rates
-install.packages("countrycode")
+##
+#Alter Health Data so that it can be merged with Suicide Rates
 HealthData$Country = countrycode::countrycode(HealthData$ï..LOCATION,origin = 'iso3c', destination = 'country.name')
 HealthData = HealthData[!(names(HealthData) %in% c("ï..LOCATION"))]
 HealthData = HealthData %>%
@@ -153,4 +162,43 @@ FinalData = merge(SuicideRates,HealthData, by = c("Country","Year"))
 FinalDataDem = merge(FinalData, NewDems, by = c("Country","Year"))
 
 write.csv(FinalDataDem, "DataToBeAnalysed.csv")
+
+
+############## Dealing with Missing Data
+MissingDataDataSet = read.csv("DataToBeAnalysed.csv")
+
+###### Use Mice to Examine Dataset Missing Values
+summary(MissingDataDataSet)
+MissingDataDataSet$gdp_for_year.... = as.numeric(MissingDataDataSet$gdp_for_year....)
+md.pattern(MissingDataDataSet)
+
+library(VIM)
+aggr_plot <- aggr(MissingDataDataSet[4:25], col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
+missingvals = sapply(MissingDataDataSet, function(x){sum(is.na(x))})
+head(sort(missingvals,decreasing = T))
+### SM.POP.NETM and HDI have large amount of missing valus, will need to discard these
+### we can use imputation for SE.MED.BEDS.ZA, SE.XPD.TOTL.GD.ZS, and SE.TER.ENRR
+searchData
+
+MissinDataColRm = MissingDataDataSet[, !(names(MissingDataDataSet) %in% c("SM.POP.NETM", "HDI.for.year"))]
+
+aggr_plot <- aggr(MissinDataColRm[4:24], col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
+missingvals = sapply(MissinDataColRm, function(x){sum(is.na(x))})
+head(sort(missingvals, decreasing = T))
+
+####### Impute Missing Data Using Regression Trees and Classification
+miceData = mice(MissinDataColRm, m=5,maxit = 100, method = 'cart', seed = 100)
+summary(miceData)
+miceData$data$SH.MED.BEDS.ZS
+completeData = complete(miceData,1)
+
+####Visualise No More MissingData
+aggr_plot <- aggr(completeData[4:24], col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
+
+write.csv(completeData, "dataNoMissingValues.csv")
+
+
+##################################################################
+#### Preproccessing is now complete, along with dealing of missing values
+#### Analysis of Suicide Rates Against various factors now possible
 
