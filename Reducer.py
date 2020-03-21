@@ -1,23 +1,20 @@
+#!/usr/bin/env python
 import sys
-
 
 myList = []
 n = 20  # Number of top N records
 
 for line in sys.stdin:
-    line.strip()
+    # remove leading and trailing whitespace
+    line = line.strip()
+    # split data values into list
     data = line.split(",")
-
-    suicideCount = data[2]
-
-    myList.append((suicideCount, line))
-    # sort list in reverse order
+    SuicideCount = data[0]
+    myList.append((SuicideCount, line))
     myList.sort()
-
-    # keep only first N records
     if len(myList) > n:
         myList = myList[:n]
-# print(myList)
+print(myList)
 
 # Print top N records
 for (k, v) in myList:
