@@ -1,14 +1,25 @@
-##install.packages("countrycode")
-##install.packages("tidyverse")
-##install.packages("readxl")
-##install.packages("reshape2")
-##install.packages("mice")
+install.packages("countrycode")
+install.packages("tidyverse")
+install.packages("readxl")
+install.packages("reshape2")
+install.packages("mice")
+install.packages("naniar")
 install.packages("VIM")
+install.packages("devtools")
+install.packages("githubinstall")
+install.packages("rsdmx")
+install.packages("dplyr")
+install.packages("DBI")
+install.packages("plyr")
 library(tidyverse)
+library(rsdmx)
 library(readxl)
 library(reshape2)
 library(mice)
 library(VIM)
+library(naniar)
+library(OECD)
+library(dplyr)
 
 OECDCountries = c("Australia","Austria","Belgium","Canada","Chile","Czech Republic","Denmark","Estonia","Finland","France",
                   "Germany","Greece","Hungary","Iceland","Ireland","Israel","Italy","Japan","Korea","Latvia","Lithuania",
@@ -20,7 +31,7 @@ ColsRm = c("INDICATOR","SUBJECT","FREQUENCY","Flag.Codes","MEASURE")
 ###### Doc Stats
 docStats = read.csv("doctorStats.csv", header = T, sep = ",")
 nrow(docStats)
-nrow(docStats)
+ncol(docStats)
 summary(docStats)
 #####Filter Doc Stats from 2000 to 2010
 docStats = filter(docStats, between(TIME, 2000,2010))
@@ -30,8 +41,6 @@ docStats = docStats %>%
   rename(
     DocsPer1000 = Value
   )
-
-
 ##### Nurse Stats
 nurseStats = read.csv("nursesStats.csv")
 nrow(nurseStats)
@@ -47,26 +56,28 @@ nurseStats = nurseStats %>%
     NursesPer1000 = Value
   )
 
-##### Pharmaeutical Stats 
-PharmaStats = read.csv("PharmaStats.csv")
-nrow(PharmaStats)
-ncol(PharmaStats)
-summary(PharmaStats)
 
-#####Filter Pharma Stats from 2000 to 2010
-PharmaStats = filter(PharmaStats, between(TIME, 2000,2010))
-#### Remove Uneeeded Columns
-PharmaStats = PharmaStats[, !(colnames(PharmaStats) %in% ColsRm), drop = FALSE]
-PharmaStats = PharmaStats %>%
-  rename(
-    PharmaSpendPercentGDP = Value
-  )
+###### API Call on OECD Data
+providers = rsdmx::getSDMXServiceProviders();
+providers = as.data.frame(providers)
+MentalHealthData = readSDMX(providerId = "OECD", resource = "data", flowRef = "SHA",
+                            start = 2000, end = 2010,
+                            dsd = TRUE)
+MentalHealthDataFrame = as.data.frame(MentalHealthData, labels = TRUE)
 
+FilteredMentalHospitalData = MentalHealthDataFrame[MentalHealthDataFrame$HP == "HP12",]
+FilteredMentalHospitalData = FilteredMentalHospitalData[FilteredMentalHospitalData$MEASURE == "PARPIB",]
+ColsKeep = c("HF_label.en","HF","HC","HC_label.en","HP_label.en","MEASURE","MEASURE_label.en","LOCATION","obsTime","obsValue","UNIT","TIME_FORMAT_label.en")
+FilteredMentalHospitalData = FilteredMentalHospitalData[,which(names(FilteredMentalHospitalData) %in% ColsKeep)]
+FilteredMentalHospitalData = FilteredMentalHospitalData[FilteredMentalHospitalData$HC == "HCTOT",]
+FilteredMentalHospitalData = FilteredMentalHospitalData[FilteredMentalHospitalData$HF == "HFTOT",]
 
+###### Having examined this data it only has a few countries on mental health hospital data spending
+###### I've decided not to add it to analysis
 
-#### rbind all three dataframes into one, can be done as they come from same source and have similar structures
+  
+  #### rbind all three dataframes into one, can be done as they come from same source and have similar structures
 HealthData = merge(docStats,nurseStats, by = c("ï..LOCATION","TIME"))
-HealthData = merge(HealthData,PharmaStats, by = c("ï..LOCATION","TIME"))
 
 write.csv(HealthData, "healthdata.csv")
 
@@ -173,16 +184,32 @@ MissingDataDataSet$gdp_for_year.... = as.numeric(MissingDataDataSet$gdp_for_year
 md.pattern(MissingDataDataSet)
 
 library(VIM)
+nrow(MissingDataDataSet)
 aggr_plot <- aggr(MissingDataDataSet[4:25], col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
 missingvals = sapply(MissingDataDataSet, function(x){sum(is.na(x))})
 head(sort(missingvals,decreasing = T))
 ### SM.POP.NETM and HDI have large amount of missing valus, will need to discard these
 ### we can use imputation for SE.MED.BEDS.ZA, SE.XPD.TOTL.GD.ZS, and SE.TER.ENRR
-searchData
+
 
 MissinDataColRm = MissingDataDataSet[, !(names(MissingDataDataSet) %in% c("SM.POP.NETM", "HDI.for.year"))]
-
+library(ggplot2)
 aggr_plot <- aggr(MissinDataColRm[4:24], col=c('navyblue','red'), numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, ylab=c("Histogram of missing data","Pattern"))
+missing.values <- MissingDataDataSet %>%
+  tidyr::gather(key = "key", value = "val") %>%
+  mutate(is.missing = is.na(val)) %>%
+  group_by(key, is.missing) %>%
+  summarise(num.missing = n()) %>%
+  filter(is.missing==T) %>%
+  select(-is.missing) %>%
+  arrange(desc(num.missing))
+
+missing.values %>%
+  ggplot() +
+  geom_bar(aes(x=key, y=num.missing), stat = 'identity', fill = "black") +
+  labs(x='Variable', y="number of missing values", title='Number of missing values by Variable') +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 missingvals = sapply(MissinDataColRm, function(x){sum(is.na(x))})
 head(sort(missingvals, decreasing = T))
 
@@ -201,4 +228,16 @@ write.csv(completeData, "dataNoMissingValues.csv")
 ##################################################################
 #### Preproccessing is now complete, along with dealing of missing values
 #### Analysis of Suicide Rates Against various factors now possible
+###################################################################
+##################      Data Mining KDD Section       #############
+###################################################################
+
+
+AnalysisData = read.csv("dataNoMissingValues.csv")
+
+summary(AnalysisData)
+ncol(AnalysisData)
+nrow(AnalysisData)
+##Get rid of two columns at start
+AnalysisData = AnalysisData[,!(names(AnalysisData) %in% c("X.1","X"))]
 

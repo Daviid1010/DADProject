@@ -1,0 +1,269 @@
+"Year","Country","x"
+2000,"Australia",2391
+2001,"Australia",2458
+2002,"Australia",2319
+2003,"Australia",2156
+2004,"Australia",2114
+2007,"Australia",2229
+2008,"Australia",2341
+2009,"Australia",2337
+2000,"Austria",1588
+2001,"Austria",1489
+2002,"Austria",1553
+2003,"Austria",1456
+2004,"Austria",1422
+2005,"Austria",1399
+2006,"Austria",1297
+2007,"Austria",1285
+2008,"Austria",1267
+2009,"Austria",1278
+2010,"Austria",1264
+2004,"Belgium",1987
+2005,"Belgium",2029
+2006,"Belgium",1935
+2007,"Belgium",1857
+2008,"Belgium",1999
+2009,"Belgium",2013
+2010,"Belgium",2013
+2003,"Canada",3765
+2004,"Canada",3613
+2005,"Canada",3743
+2006,"Canada",3512
+2007,"Canada",3611
+2008,"Canada",3705
+2009,"Canada",3890
+2010,"Canada",3951
+2000,"Denmark",728
+2001,"Denmark",727
+2002,"Denmark",688
+2003,"Denmark",633
+2004,"Denmark",661
+2005,"Denmark",631
+2006,"Denmark",650
+2007,"Denmark",581
+2008,"Denmark",603
+2009,"Denmark",622
+2010,"Denmark",563
+2000,"Estonia",377
+2001,"Estonia",401
+2002,"Estonia",371
+2003,"Estonia",342
+2004,"Estonia",323
+2005,"Estonia",273
+2006,"Estonia",247
+2007,"Estonia",251
+2008,"Estonia",242
+2009,"Estonia",269
+2010,"Estonia",223
+2000,"Finland",1165
+2004,"Finland",1064
+2005,"Finland",994
+2006,"Finland",1062
+2007,"Finland",995
+2008,"Finland",1033
+2009,"Finland",1034
+2010,"Finland",954
+2000,"France",10849
+2001,"France",10449
+2002,"France",10643
+2003,"France",10871
+2004,"France",10804
+2005,"France",10713
+2006,"France",10423
+2007,"France",10127
+2008,"France",10353
+2009,"France",10499
+2010,"France",10379
+2000,"Germany",11073
+2001,"Germany",11167
+2002,"Germany",11176
+2003,"Germany",11155
+2004,"Germany",10741
+2005,"Germany",10270
+2006,"Germany",9775
+2007,"Germany",9409
+2008,"Germany",9459
+2009,"Germany",9579
+2010,"Germany",10030
+2000,"Hungary",3269
+2001,"Hungary",2978
+2002,"Hungary",2839
+2003,"Hungary",2800
+2004,"Hungary",2742
+2005,"Hungary",2619
+2006,"Hungary",2461
+2007,"Hungary",2450
+2008,"Hungary",2476
+2009,"Hungary",2460
+2010,"Hungary",2489
+2000,"Iceland",50
+2001,"Iceland",36
+2002,"Iceland",30
+2003,"Iceland",26
+2004,"Iceland",35
+2005,"Iceland",33
+2006,"Iceland",32
+2007,"Iceland",37
+2008,"Iceland",38
+2009,"Iceland",36
+2010,"Iceland",46
+2000,"Israel",394
+2001,"Israel",398
+2002,"Israel",382
+2003,"Israel",417
+2004,"Israel",411
+2005,"Israel",425
+2006,"Israel",367
+2007,"Israel",326
+2008,"Israel",354
+2009,"Israel",404
+2010,"Israel",480
+2002,"Japan",29715
+2004,"Japan",30034
+2006,"Japan",29769
+2008,"Japan",30073
+2010,"Japan",29411
+2000,"Latvia",770
+2001,"Latvia",708
+2002,"Latvia",670
+2003,"Latvia",604
+2004,"Latvia",563
+2005,"Latvia",564
+2006,"Latvia",487
+2007,"Latvia",453
+2008,"Latvia",527
+2009,"Latvia",516
+2010,"Latvia",438
+2000,"Lithuania",1631
+2001,"Lithuania",1533
+2002,"Lithuania",1551
+2003,"Lithuania",1455
+2004,"Lithuania",1380
+2005,"Lithuania",1319
+2006,"Lithuania",1049
+2007,"Lithuania",1025
+2008,"Lithuania",1111
+2009,"Lithuania",1138
+2010,"Lithuania",1018
+2000,"Luxembourg",62
+2001,"Luxembourg",73
+2002,"Luxembourg",85
+2003,"Luxembourg",48
+2004,"Luxembourg",62
+2005,"Luxembourg",49
+2006,"Luxembourg",65
+2009,"Luxembourg",48
+2010,"Luxembourg",54
+2000,"Mexico",3456
+2001,"Mexico",3760
+2002,"Mexico",3826
+2003,"Mexico",4070
+2004,"Mexico",4056
+2005,"Mexico",4274
+2006,"Mexico",4230
+2007,"Mexico",4285
+2008,"Mexico",4642
+2009,"Mexico",5023
+2010,"Mexico",4858
+2000,"Netherlands",1501
+2001,"Netherlands",1474
+2002,"Netherlands",1570
+2003,"Netherlands",1502
+2004,"Netherlands",1514
+2005,"Netherlands",1574
+2006,"Netherlands",1525
+2007,"Netherlands",1354
+2008,"Netherlands",1439
+2009,"Netherlands",1530
+2010,"Netherlands",1604
+2005,"New Zealand",514
+2006,"New Zealand",527
+2007,"New Zealand",494
+2008,"New Zealand",520
+2009,"New Zealand",512
+2010,"New Zealand",536
+2002,"Norway",494
+2003,"Norway",502
+2004,"Norway",529
+2005,"Norway",533
+2006,"Norway",532
+2007,"Norway",485
+2008,"Norway",505
+2009,"Norway",573
+2010,"Norway",548
+2000,"Poland",5841
+2001,"Poland",5855
+2002,"Poland",5925
+2003,"Poland",5836
+2004,"Poland",6072
+2005,"Poland",6045
+2006,"Poland",5805
+2007,"Poland",5284
+2008,"Poland",5682
+2009,"Poland",6477
+2010,"Poland",6357
+2000,"Slovenia",588
+2001,"Slovenia",581
+2002,"Slovenia",540
+2003,"Slovenia",562
+2004,"Slovenia",512
+2005,"Slovenia",503
+2006,"Slovenia",529
+2007,"Slovenia",434
+2008,"Slovenia",408
+2009,"Slovenia",447
+2010,"Slovenia",414
+2000,"Spain",3394
+2001,"Spain",3189
+2002,"Spain",3372
+2003,"Spain",3478
+2004,"Spain",3508
+2005,"Spain",3399
+2006,"Spain",3247
+2007,"Spain",3264
+2008,"Spain",3457
+2009,"Spain",3429
+2010,"Spain",3158
+2000,"Sweden",1131
+2001,"Sweden",1197
+2002,"Sweden",1180
+2003,"Sweden",1112
+2004,"Sweden",1155
+2005,"Sweden",1219
+2006,"Sweden",1197
+2007,"Sweden",1126
+2008,"Sweden",1170
+2009,"Sweden",1242
+2010,"Sweden",1141
+2003,"Switzerland",1269
+2004,"Switzerland",1284
+2005,"Switzerland",1299
+2006,"Switzerland",1309
+2007,"Switzerland",1360
+2008,"Switzerland",1314
+2009,"Switzerland",1105
+2010,"Switzerland",1006
+2009,"Turkey",1050
+2010,"Turkey",1524
+2000,"United Kingdom",4290
+2001,"United Kingdom",4128
+2002,"United Kingdom",4117
+2003,"United Kingdom",3979
+2004,"United Kingdom",4183
+2005,"United Kingdom",4047
+2006,"United Kingdom",4122
+2007,"United Kingdom",3897
+2008,"United Kingdom",4259
+2009,"United Kingdom",4246
+2010,"United Kingdom",4188
+2000,"United States",29343
+2001,"United States",30607
+2002,"United States",31645
+2003,"United States",31477
+2004,"United States",32428
+2005,"United States",32629
+2006,"United States",33292
+2007,"United States",34596
+2008,"United States",36030
+2009,"United States",36900
+2010,"United States",38362

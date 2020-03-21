@@ -1,0 +1,3 @@
+https://api.worldbank.org/v2/country/all/indicator/IDX.HDI
+
+HDI For Countries

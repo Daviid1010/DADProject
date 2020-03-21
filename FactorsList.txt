@@ -2,7 +2,6 @@ SP.POP.80UP.FE - Fertility Rates
 SH.XPD.PRIV.ZS - health expenditure private %GDP
 SH.XPD.PUBL.ZS - health expenditure public %GDP
 SH.MED.BEDS.ZS	- hospital beds per 1,000 people
-SM.POP.NETM - Net Migration
 SE.XPD.TOTL.GD.ZS - Public Spending on Education (%GDP)
 SP.RUR.TOTL.ZS - Rural Population % total
 SE.TER.ENRR - Tertiary School Enrollment
