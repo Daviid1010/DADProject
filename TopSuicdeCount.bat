@@ -17,7 +17,7 @@ REM Run the reducer
 type MapperOutput\MapperOut.txt | sort | Reducer.py
 
 REM Run the reducer, output to file
-type MapperOutput\MapperOut.txt | sort | Reducer.py > output\ReducerOutput.txt
+type MapperOutput\MapperOut.txt | sort | Reducer.py > MapperOutput\ReducerOutput.csv
 
 REM Wait for user to press a key
 PAUSE

@@ -5,17 +5,20 @@ myList = []
 n = 20  # Number of top N records
 
 for line in sys.stdin:
-    # remove leading and trailing whitespace
-    line = line.strip()
-    # split data values into list
-    data = line.split(",")
-    SuicideCount = data[0]
-    myList.append((SuicideCount, line))
-    myList.sort()
-    if len(myList) > n:
-        myList = myList[:n]
-print(myList)
+	line.strip()
+	if not line.strip():
+		continue
+	else:
+		data = line.split(",")
 
+	suicideCount = data[2]
+
+	myList.append((suicideCount, line))
+
+	myList.sort(reverse=True)
+
+	if len(myList) > n:
+		myList = myList[:n]
 # Print top N records
 for (k, v) in myList:
     print(v)

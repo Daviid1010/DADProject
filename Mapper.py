@@ -5,19 +5,18 @@ myList = []
 n = 20  # Number of top N records
 
 for line in sys.stdin:
+    line.replace('"','')
     line.strip()
     data = line.split(",")
-
-    suicideCount = data[2]
+    data[2].strip('\n')
+    suicideCount = float(data[2])
 
     myList.append((suicideCount, line))
-    # sort list in reverse order
-    myList.sort()
+    myList.sort(reverse=True)
 
     # keep only first N records
     if len(myList) > n:
         myList = myList[:n]
-# print(myList)
 
 # Print top N records
 for (k, v) in myList:
